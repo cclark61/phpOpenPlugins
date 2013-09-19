@@ -12,6 +12,7 @@ phpOpenPlugins Change Log
 if a passed date is invalid and return false.
 - Fixed an issue with the cache directory in the LWCMS Blog and Dynamic Content Plugins
 - Added "loaded" ability / status to the POP_base class.
+- Added "POP_bootstrap3" plugin for use with Bootstrap 3
 
 -------------------------------------------------------------------------------------
 * v0.5.5
