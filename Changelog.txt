@@ -14,6 +14,7 @@ if a passed date is invalid and return false.
 - Added "loaded" ability / status to the POP_base class.
 - Added "set_dio_field_null()" and "set_dio_field_current_dttm()" functions 
 to the POP_database plugin.
+- Added "POP_bootstrap3" plugin for use with Bootstrap 3
 
 -------------------------------------------------------------------------------------
 * v0.5.5
