@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 3/1/2013
+* @version 		Started: 7/17/2012, Last updated: 9/14/2013
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -121,6 +121,34 @@ if (!function_exists('make_mysql_bind_parameters')) {
 			}
 		}
 		return $ret_val;
+	}
+}
+
+//=============================================================================
+//=============================================================================
+// Set DIO Field to NULL
+//=============================================================================
+//=============================================================================
+if (!function_exists('set_dio_field_null')) {
+	function set_dio_field_null(&$obj, $field_name)
+	{
+		$obj->set_field_quotes($field_name, 'disable');
+		$obj->set_field_data($field_name, 'NULL');
+		$obj->set_use_bind_param($field_name, false);
+	}
+}
+
+//=============================================================================
+//=============================================================================
+// Set DIO Field to Current Date/Time
+//=============================================================================
+//=============================================================================
+if (!function_exists('set_dio_field_current_dttm')) {
+	function set_dio_field_current_dttm(&$obj, $field_name)
+	{
+		$obj->set_field_quotes($field_name, 'disable');
+		$obj->set_field_data($field_name, 'NOW()');
+		$obj->set_use_bind_param($field_name, false);
 	}
 }
 

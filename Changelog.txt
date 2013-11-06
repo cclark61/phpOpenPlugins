@@ -12,6 +12,8 @@ phpOpenPlugins Change Log
 if a passed date is invalid and return false.
 - Fixed an issue with the cache directory in the LWCMS Blog and Dynamic Content Plugins
 - Added "loaded" ability / status to the POP_base class.
+- Added "set_dio_field_null()" and "set_dio_field_current_dttm()" functions 
+to the POP_database plugin.
 
 -------------------------------------------------------------------------------------
 * v0.5.5
