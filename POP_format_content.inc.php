@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 4/2/2013
+* @version 		Started: 7/17/2012, Last updated: 12/31/2013
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -373,6 +373,43 @@ function get_saveable_password($pass, $aps=false)
 	}
 
 	return $pass;
+}
+
+//=============================================================================
+//=============================================================================
+/**
+ * This method will redirect the user to the given page and also send
+ * a message with it if wanted
+ *
+ * @param string $location The location to send the user, if empty $_SERVER['REDIRECT_URL'] is used
+ * @param string $message. The message to display once redirected
+ * @param mixed $message_type The message type. Options are:
+ * 		'error_message', 'warn_message', 'action_message' (default), 'gen_message', 'page_message'
+ */
+//=============================================================================
+//=============================================================================
+if (!function_exists('redirect')) {
+	function redirect($location=false, $message=false, $message_type='action_message')
+	{
+		//-----------------------------------------------------
+		// Set the location
+		//-----------------------------------------------------
+		$location = (empty($location)) ? ($_SERVER['REDIRECT_URL']) : ($location);
+	
+		//-----------------------------------------------------
+		// Add a Message?
+		//-----------------------------------------------------
+		$msg_func = 'add_' . $message_type;
+		if (!empty($message) && function_exists($msg_func)) {
+			call_user_func($msg_func, $message);
+		}
+	
+		//-----------------------------------------------------
+		// Redirect
+		//-----------------------------------------------------
+		header("Location: {$location}");
+		exit;
+	}
 }
 
 ?>
