@@ -16,7 +16,7 @@ if a passed date is invalid and return false.
 to the POP_database plugin.
 - Added "POP_bootstrap3" plugin for use with Bootstrap 3
 - Removed extra space at the end of each PHP file
-- Added "make_cache_key()" function to POP_database plugin.
+- Added "make_cache_key()" function to POP_format_content plugin.
 - Added "redirect()" function to the POP_format_content plugin.
 
 -------------------------------------------------------------------------------------

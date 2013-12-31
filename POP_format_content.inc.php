@@ -378,6 +378,47 @@ function get_saveable_password($pass, $aps=false)
 //=============================================================================
 //=============================================================================
 /**
+* Create and return a cache key for use in MemCache for example.
+*
+* @param string Function Name
+* @param array The parameters passed to the original function.
+*
+* @return string A unique cache key.
+*/
+//=============================================================================
+//=============================================================================
+if (!function_exists('make_cache_key')) {
+	function make_cache_key($fn, $args)
+	{
+		if (empty($fn) || empty($args)) { return false; }
+	
+		//-----------------------------------------------------
+		// Build Cache Key
+		//-----------------------------------------------------
+		$cache_key = "{$_SESSION['ENV']}:{$fn}";
+		if (is_array($args)) {
+			foreach ($args as $arg) {
+				if (is_array($arg)) {
+					$cache_key .= ':' . serialize($arg);
+				}
+				else {
+					$cache_key .= ":{$arg}";
+				}
+			}
+		}
+		else {
+			$cache_key .= ":{$args}";
+		}
+	
+		$cache_key = md5($cache_key);
+	
+		return $cache_key;
+	}
+}
+
+//=============================================================================
+//=============================================================================
+/**
  * This method will redirect the user to the given page and also send
  * a message with it if wanted
  *
