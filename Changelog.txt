@@ -15,6 +15,8 @@ if a passed date is invalid and return false.
 - Added "set_dio_field_null()" and "set_dio_field_current_dttm()" functions 
 to the POP_database plugin.
 - Added "POP_bootstrap3" plugin for use with Bootstrap 3
+- Removed extra space at the end of each PHP file
+- Added "make_cache_key()" function to POP_database plugin.
 
 -------------------------------------------------------------------------------------
 * v0.5.5

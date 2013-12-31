@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 9/14/2013
+* @version 		Started: 7/17/2012, Last updated: 12/31/2013
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -149,6 +149,47 @@ if (!function_exists('set_dio_field_current_dttm')) {
 		$obj->set_field_quotes($field_name, 'disable');
 		$obj->set_field_data($field_name, 'NOW()');
 		$obj->set_use_bind_param($field_name, false);
+	}
+}
+
+//=============================================================================
+//=============================================================================
+/**
+* Create and return a cache key for use in MemCache for example.
+*
+* @param string Function Name
+* @param array The parameters passed to the original function.
+*
+* @return string A unique cache key.
+*/
+//=============================================================================
+//=============================================================================
+if (!function_exists('make_cache_key')) {
+	function make_cache_key($fn, $args)
+	{
+		if (empty($fn) || empty($args)) { return false; }
+	
+		//-----------------------------------------------------
+		// Build Cache Key
+		//-----------------------------------------------------
+		$cache_key = "{$_SESSION['ENV']}:{$fn}";
+		if (is_array($args)) {
+			foreach ($args as $arg) {
+				if (is_array($arg)) {
+					$cache_key .= ':' . serialize($arg);
+				}
+				else {
+					$cache_key .= ":{$arg}";
+				}
+			}
+		}
+		else {
+			$cache_key .= ":{$args}";
+		}
+	
+		$cache_key = md5($cache_key);
+	
+		return $cache_key;
 	}
 }
 
