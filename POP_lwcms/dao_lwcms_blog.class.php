@@ -9,7 +9,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 9/22/2009, Last updated: 5/9/2013
+* @version 		Started: 9/22/2009, Last updated: 1/12/2014
 **/
 //**************************************************************************
 
@@ -173,7 +173,7 @@ class dao_lwcms_blog
 
 		$params = array('iii', $this->site_id, $this->blog_id, $max_entries);
 		$entries = qdb_exec($this->data_source, $strsql, $params);
-		if (!$entries) { return false; }
+		if (!$entries) { return []; }
 		$this->add_content_to_entries($entries);
 		return $entries;
 	}
@@ -424,6 +424,20 @@ class dao_lwcms_blog
 			}
 			else {
 				unset($entries[$key]);
+			}
+
+			$post_date_stamp = strtotime($entry['post_date']);
+			if ($post_date_stamp > 0) {
+				$entry['disp_post_date'] = date('n/j/Y');
+				$entry['disp_post_date2'] = date('F j Y');
+				$entry['disp_post_datetime'] = date('n/j/Y, g:i a');
+				$entry['disp_post_datetime2'] = date('F j Y, g:i a');
+			}
+			else {
+				$entry['disp_post_date'] = false;
+				$entry['disp_post_date2'] = false;
+				$entry['disp_post_datetime'] = false;
+				$entry['disp_post_datetime2'] = false;
 			}
 		}
 	}

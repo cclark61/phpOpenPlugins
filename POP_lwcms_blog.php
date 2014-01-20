@@ -239,18 +239,20 @@ class LWCMS_Blog
 		// Pull data
 		//-------------------------------------------------
 		$blog_ents = $this->dao->get_entries(10);
-		
+
 		$recents_nav = array();
 		$recents_nav['title'] = $title;
 		$recents_nav['nav_items'] = array();
 		$recents_nav['url_stub'] = $url_stub;
 		foreach ($blog_ents as $post) {
 			extract($post);
-			$tmp = array();
+			$tmp = $post;
+			unset($tmp['entry_content']);
 			$tmp['desc'] = $entry_title;
 			$seo_title = seo_friendly_str($entry_title);
 			$tmp['link'] = "{$url_stub}/{$id}/{$seo_title}" . '.html';
 			$tmp['key'] = $id;
+			
 			$recents_nav['nav_items'][] = $tmp;
 		}
 	
@@ -289,12 +291,14 @@ class LWCMS_Blog
 		$cats_nav['url_stub'] = $url_stub;
 		foreach ($blog_cats as $cat) {
 			extract($cat);
-			$tmp = array();
+			$tmp = $cat;
+			unset($tmp['entry_content']);
 			if ($cat_id == 0) { $category = $zero_category; }
 			$tmp['desc'] = "{$category} ({$num_entries})";
 			$seo_cat_name = seo_friendly_str($category);
 			$tmp['link'] = "{$url_stub}/{$cat_id}/{$seo_cat_name}" . '.html';
 			$tmp['key'] = $cat_id;
+
 			$cats_nav['nav_items'][] = $tmp;
 		}
 	
@@ -329,17 +333,19 @@ class LWCMS_Blog
 		// Pull data
 		//-------------------------------------------------
 		$blog_archs = $this->dao->get_year_month_list();
-	
+
 		$archs_nav = array();
 		$archs_nav['title'] = $title;
 		$archs_nav['nav_items'] = array();
 		$archs_nav['url_stub'] = $url_stub;
 		foreach ($blog_archs as $arch) {
 			extract($arch);
-			$tmp = array();
+			$tmp = $arch;
+			unset($tmp['entry_content']);
 			$tmp['desc'] = "{$month_name} {$year} ({$num_entries})";
 			$tmp['link'] = "{$url_stub}/{$year}/{$month}/";
 			$tmp['key'] = "{$year}/{$month}";
+
 			$archs_nav['nav_items'][] = $tmp;
 		}
 	

@@ -18,6 +18,8 @@ to the POP_database plugin.
 - Removed extra space at the end of each PHP file
 - Added "make_cache_key()" function to POP_format_content plugin.
 - Added "redirect()" function to the POP_format_content plugin.
+- Fixed Issue in LWCMS Blog DAO Plugin
+- Updated LWCMS Blog DAO plugin to add pretty post date display information to the add_content_to_entries() function
 
 -------------------------------------------------------------------------------------
 * v0.5.5
