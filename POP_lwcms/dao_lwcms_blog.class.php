@@ -173,7 +173,7 @@ class dao_lwcms_blog
 
 		$params = array('iii', $this->site_id, $this->blog_id, $max_entries);
 		$entries = qdb_exec($this->data_source, $strsql, $params);
-		if (!$entries) { return []; }
+		if (!$entries) { return array(); }
 		$this->add_content_to_entries($entries);
 		return $entries;
 	}
