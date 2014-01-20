@@ -2,10 +2,10 @@
 //*****************************************************************************
 //*****************************************************************************
 /**
-* Twitter Bootstrap Object
+* Twitter Bootstrap Object (for TB 2.x)
 *
 * @package		phpOpenPlugins
-* @subpackage	Twitter Bootstrap
+* @subpackage	Twitter Bootstrap 2.x
 * @author 		Christian J. Clark
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
