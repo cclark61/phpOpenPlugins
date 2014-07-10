@@ -20,6 +20,10 @@ to the POP_database plugin.
 - Added "redirect()" function to the POP_format_content plugin.
 - Fixed Issue in LWCMS Blog DAO Plugin
 - Updated LWCMS Blog DAO plugin to add pretty post date display information to the add_content_to_entries() function
+- Updated format_records() in POP_format_content.inc.php to be able to accept anonymous functions
+for formatting fields.
+- Updated html_sanitize() and html_escape() functions in POP_format_content.inc.php to 
+allow new lines and carriage returns.
 
 -------------------------------------------------------------------------------------
 * v0.5.5

@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 12/31/2013
+* @version 		Started: 7/17/2012, Last updated: 7/10/2014
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -174,7 +174,7 @@ function load_file_content($dir, $file)
 //=============================================================================
 function html_sanitize($s)
 {
-	$s = preg_replace('/[^(\x20-\x7F)]*/','', (string)$s);
+	$s = preg_replace('/[^\xA|\xC|(\x20-\x7F)]*/','', (string)$s);
 	return htmlspecialchars(strip_tags($s));
 }
 
@@ -185,7 +185,7 @@ function html_sanitize($s)
 //=============================================================================
 function html_escape($s)
 {
-	$s = preg_replace('/[^(\x20-\x7F)]*/','', (string)$s);
+	$s = preg_replace('/[^\xA|\xC|(\x20-\x7F)]*/','', (string)$s);
 	return htmlspecialchars($s);
 }
 
@@ -298,7 +298,11 @@ function format_records(&$recs, $fields)
 					if ($sub_procs) { $processed++; }
 				}
 				else {
-					if (function_exists($fn)) {
+					if (is_callable($fn)) {
+						$rec[$field] = $fn($rec[$field]);
+						$processed++;
+					}
+					else if (function_exists($fn)) {
 						$rec[$field] = call_user_func($fn, $rec[$field]);
 						$processed++;					
 					}
