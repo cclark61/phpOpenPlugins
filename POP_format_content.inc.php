@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 7/10/2014
+* @version 		Started: 7/17/2012, Last updated: 8/28/2014
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -437,10 +437,23 @@ if (!function_exists('redirect')) {
 	function redirect($location=false, $message=false, $message_type='action_message')
 	{
 		//-----------------------------------------------------
+		// Set flag to stop page render
+		//-----------------------------------------------------
+		define('POFW_SKIP_RENDER', 1);
+
+		//-----------------------------------------------------
 		// Set the location
 		//-----------------------------------------------------
-		$location = (empty($location)) ? ($_SERVER['REDIRECT_URL']) : ($location);
-	
+		if (empty($location)) {
+			$qs_start = strpos($_SERVER['REQUEST_URI'], '?');
+			if ($qs_start === false) {
+				$location = $_SERVER['REQUEST_URI'];
+			}
+			else {
+				$location = substr($_SERVER['REQUEST_URI'], 0, $qs_start);
+			}
+		}
+
 		//-----------------------------------------------------
 		// Add a Message?
 		//-----------------------------------------------------

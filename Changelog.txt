@@ -24,6 +24,7 @@ to the POP_database plugin.
 for formatting fields.
 - Updated html_sanitize() and html_escape() functions in POP_format_content.inc.php to 
 allow new lines and carriage returns.
+- Updated redirect function to set the no render flag so pages that are redirected with not redirect.
 
 -------------------------------------------------------------------------------------
 * v0.5.5
