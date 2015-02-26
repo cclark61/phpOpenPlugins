@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 8/28/2014
+* @version 		Started: 7/17/2012, Last updated: 2/25/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -395,11 +395,18 @@ if (!function_exists('make_cache_key')) {
 	function make_cache_key($fn, $args)
 	{
 		if (empty($fn) || empty($args)) { return false; }
-	
+
 		//-----------------------------------------------------
 		// Build Cache Key
 		//-----------------------------------------------------
-		$cache_key = "{$_SESSION['ENV']}:{$fn}";
+		$cache_key = '';
+		if (isset($_SESSION['app_code'])) {
+			$cache_key = "{$_SESSION['app_code']}:";
+		}
+		if (isset($_SESSION['app_key'])) {
+			$cache_key = "{$_SESSION['app_key']}:";
+		}
+		$cache_key .= "{$_SESSION['ENV']}:{$fn}";
 		if (is_array($args)) {
 			foreach ($args as $arg) {
 				if (is_array($arg)) {

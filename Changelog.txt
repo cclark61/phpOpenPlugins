@@ -7,6 +7,8 @@ phpOpenPlugins Change Log
 -------------------------------------------------------------------------------------
 * v0.5.7
 -------------------------------------------------------------------------------------
+- Updated make_cache_key() function in POP_format_content plugin to allow for session app codes and keys for 
+application cache separation.
 
 -------------------------------------------------------------------------------------
 * v0.5.6
