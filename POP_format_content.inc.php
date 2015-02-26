@@ -401,10 +401,10 @@ if (!function_exists('make_cache_key')) {
 		//-----------------------------------------------------
 		$cache_key = '';
 		if (isset($_SESSION['app_code'])) {
-			$cache_key = "{$_SESSION['app_code']}:";
+			$cache_key .= "{$_SESSION['app_code']}:";
 		}
 		if (isset($_SESSION['app_key'])) {
-			$cache_key = "{$_SESSION['app_key']}:";
+			$cache_key .= "{$_SESSION['app_key']}:";
 		}
 		$cache_key .= "{$_SESSION['ENV']}:{$fn}";
 		if (is_array($args)) {
