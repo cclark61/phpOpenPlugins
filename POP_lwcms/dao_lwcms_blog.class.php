@@ -428,10 +428,10 @@ class dao_lwcms_blog
 
 			$post_date_stamp = strtotime($entry['post_date']);
 			if ($post_date_stamp > 0) {
-				$entry['disp_post_date'] = date('n/j/Y');
-				$entry['disp_post_date2'] = date('F j Y');
-				$entry['disp_post_datetime'] = date('n/j/Y, g:i a');
-				$entry['disp_post_datetime2'] = date('F j Y, g:i a');
+				$entry['disp_post_date'] = date('n/j/Y', $post_date_stamp);
+				$entry['disp_post_date2'] = date('F j Y', $post_date_stamp);
+				$entry['disp_post_datetime'] = date('n/j/Y, g:i a', $post_date_stamp);
+				$entry['disp_post_datetime2'] = date('F j Y, g:i a', $post_date_stamp);
 			}
 			else {
 				$entry['disp_post_date'] = false;
