@@ -500,4 +500,3 @@ class dao_lwcms_blog
 
 }
 
-?>

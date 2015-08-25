@@ -411,4 +411,3 @@ class LWCMS_DC
 	}
 }
 
-?>

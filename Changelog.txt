@@ -9,6 +9,18 @@ phpOpenPlugins Change Log
 -------------------------------------------------------------------------------------
 - Updated make_cache_key() function in POP_format_content plugin to allow for session app codes and keys for 
 application cache separation.
+- Removed the "POP_database" plugin.
+- Removed the "db_analyze" plugin.
+- Removed the "remote_conn.inc.php" plugin.
+- Added a new plugins: 
+	1. POP_mysql - A plugin with MySQL related functions
+	2. POP_memcache - A plugin with Memcache related functions
+	3. POP_mongodb - A plugin with MongoDB related functions
+	3. POP_dio - A plugin with Database Interface Object related functions
+	5. POP_cdn - A plugin with Content Delivery related functions
+
+- Added label(), badge(), and alert() functions the bootstrap plugins.
+- Added the css_icon() function to the POP_format_content plugin.
 
 -------------------------------------------------------------------------------------
 * v0.5.6

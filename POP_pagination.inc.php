@@ -97,4 +97,3 @@ function paginated_links($num_pages, $base_link, $curr_page, $args=false)
 	print div(ob_get_clean(), $div_attrs);
 }
 
-?>

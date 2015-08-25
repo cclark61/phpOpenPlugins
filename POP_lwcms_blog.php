@@ -353,4 +353,3 @@ class LWCMS_Blog
 	}
 }
 
-?>

@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 1/30/2013, Last updated: 2/9/2013
+* @version 		Started: 1/30/2013, Last updated: 8/24/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -184,6 +184,68 @@ class POP_TB
 		//---------------------------------
 		$form->render();
 	}
+
+	//=========================================================================
+	//=========================================================================
+	/**
+	* Return a Bootstrap "Label"
+	*
+	* @param string Label Contents
+	* @param string the Bootstrap Label class AFTER the dash. I.e. 'success', 'info', etc.
+	*
+	* @return string HTML CSS Icon
+	*/
+	//=========================================================================
+	//=========================================================================
+	public static function label($contents, $type=false)
+	{
+		if ($contents == '') { return false; }
+		if (empty($type)) { $type == 'default'; }
+		if (!is_array($attrs)) { $attrs = array(); }
+		$attrs['class'] = (!empty($attrs['class'])) ? ($attrs['class'] . ' label label-' . $type) : ('label label-' . $type);
+		return xhe('span', $contents, $attrs);
+	}
+
+	//=========================================================================
+	//=========================================================================
+	/**
+	* Return a Bootstrap "Badge"
+	*
+	* @param string Badge Contents
+	* @param string the Bootstrap Badge class AFTER the dash. I.e. 'success', 'info', etc.
+	*
+	* @return string HTML CSS Icon
+	*/
+	//=========================================================================
+	//=========================================================================
+	public static function badge($contents, $type=false)
+	{
+		if ($contents == '') { return false; }
+		if (empty($type)) { $type == 'default'; }
+		if (!is_array($attrs)) { $attrs = array(); }
+		$attrs['class'] = (!empty($attrs['class'])) ? ($attrs['class'] . ' badge badge-' . $type) : ('badge badge-' . $type);
+		return xhe('span', $contents, $attrs);
+	}
+
+	//=========================================================================
+	//=========================================================================
+	/**
+	* Return a Bootstrap "Alert"
+	*
+	* @param string Alert Contents
+	* @param string the Bootstrap Badge class AFTER the dash. I.e. 'success', 'info', etc.
+	*
+	* @return string HTML CSS Icon
+	*/
+	//=========================================================================
+	//=========================================================================
+	public static function alert($contents, $type=false)
+	{
+		if ($contents == '') { return false; }
+		if (empty($type)) { $type == 'info'; }
+		if (!is_array($attrs)) { $attrs = array(); }
+		$attrs['class'] = (!empty($attrs['class'])) ? ($attrs['class'] . ' alert alert-' . $type) : ('alert alert-' . $type);
+		return xhe('div', $contents, $attrs);
+	}
 }
 
-?>

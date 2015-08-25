@@ -19,4 +19,3 @@ include('POP_format_content.inc.php');
 include('POP_validation.inc.php');
 include('POP_pagination.inc.php');
 
-?>

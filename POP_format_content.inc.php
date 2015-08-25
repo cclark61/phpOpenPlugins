@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 2/25/2015
+* @version 		Started: 7/17/2012, Last updated: 8/25/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -400,13 +400,11 @@ if (!function_exists('make_cache_key')) {
 		// Build Cache Key
 		//-----------------------------------------------------
 		$cache_key = '';
-		if (isset($_SESSION['app_code'])) {
-			$cache_key .= "{$_SESSION['app_code']}:";
-		}
-		if (isset($_SESSION['app_key'])) {
-			$cache_key .= "{$_SESSION['app_key']}:";
-		}
-		$cache_key .= "{$_SESSION['ENV']}:{$fn}";
+		if (isset($_SESSION['app_code'])) { $cache_key .= "{$_SESSION['app_code']}:"; }
+		if (isset($_SESSION['app_key'])) { $cache_key .= "{$_SESSION['app_key']}:"; }
+		if (isset($_SESSION['ENV'])) { $cache_key .= "{$_SESSION['ENV']}:";	}
+		$cache_key .= $fn;
+
 		if (is_array($args)) {
 			foreach ($args as $arg) {
 				if (is_array($arg)) {
@@ -477,4 +475,20 @@ if (!function_exists('redirect')) {
 	}
 }
 
-?>
+//=========================================================================
+//=========================================================================
+/**
+* Return a CSS based Icon
+*
+* @param string Icon to use i.e. 'fa fa-check'
+*
+* @return string HTML CSS Icon
+*/
+//=========================================================================
+//=========================================================================
+function css_icon($i)
+{
+	if (empty($i)) { return false; }
+	return "<i class=\"{$i}\"></i>";
+}
+

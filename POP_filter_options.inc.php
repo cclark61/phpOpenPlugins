@@ -103,4 +103,3 @@ function print_list_filter(&$page, $base_url, $options, $get_var, $cookie_mod_va
 	return $ret_vals;
 }
 
-?>

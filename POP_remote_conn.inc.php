@@ -64,4 +64,3 @@ function is_service_available($server, $port, $args=false)
 	return false;
 }
 
-?>

@@ -134,4 +134,3 @@ function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_f
 	return $ret_code;
 }
 
-?>

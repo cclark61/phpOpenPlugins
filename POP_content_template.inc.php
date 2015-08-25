@@ -158,4 +158,3 @@ class POP_content_template
 	}
 }
 
-?>
