@@ -14,18 +14,19 @@
 **/
 //*****************************************************************************
 //*****************************************************************************
+require_once('POP_static_core.class.php');
 
 //*******************************************************************************
 //*******************************************************************************
 // POP MySQL Object
 //*******************************************************************************
 //*******************************************************************************
-class POP_mysql
+class POP_mysql extends POP_static_core
 {
 
 	//=========================================================================
 	//=========================================================================
-	// Get Record by ID Function
+	// Get Record Function
 	//=========================================================================
 	// Previosuly named "get_record_by_id()"
 	//=========================================================================
@@ -39,8 +40,18 @@ class POP_mysql
 			if (count($field) > 1) { $type = $field[1]; }
 		}
 		$params = array($type, $value);
-		$strsql = "select * from {$table} where {$field} = ?";
+		$strsql = "select * from {$table} where {$field} = ? limit 1";
 		return qdb_first_row($ds, $strsql, $params);
+	}
+
+	//=========================================================================
+	//=========================================================================
+	// Get Records Function
+	//=========================================================================
+	//=========================================================================
+	public static function get_records($table, $value, $field=false, $ds='')
+	{
+		
 	}
 
 	//=========================================================================
@@ -85,23 +96,27 @@ class POP_mysql
 	// Get Tables with Field Function
 	//============================================================================
 	//============================================================================
-	public static function get_tables_with_field($field, $ds='')
+	public static function get_tables_with_field($field, $ds='', $db=false)
 	{
 		//-----------------------------------------------------
 		// Determine Database
 		//-----------------------------------------------------
-		if ($ds == '') {
-			if (isset($_SESSION['default_data_source'])) {
-				$db = $_SESSION[$_SESSION['default_data_source']]['source'];
-			}
-			else {
-				$scope = __CLASS__ . '::' . __METHOD__;
-				if (function_exists('display_error')) {
-					display_error($scope, 'Invalid or no data source given.');
+		if ($db == '') {
+			if ($ds == '') {
+				if (!empty($_SESSION['default_data_source'])) {
+					$ds = $_SESSION['default_data_source'];
 				}
 				else {
-					tirgger_error('Invalid or no data source given.');
+					self::display_error(__METHOD__, 'Invalid or no data source given. (1)');
+					return false;					
 				}
+			}
+			if (!empty($_SESSION[$ds]['source'])) {
+				$db = $_SESSION[$ds]['source'];
+			}
+			else {
+				self::display_error(__METHOD__, 'Invalid or no data source given. (2)');
+				return false;
 			}
 		}
 

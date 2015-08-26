@@ -1,13 +1,20 @@
 <?php
-//********************************************************************************
-//********************************************************************************
-// Service API Core Class Plugin
-//********************************************************************************
-//********************************************************************************
-// Started: 7/17/2012
-// Updated: 7/17/2012
-//********************************************************************************
-//********************************************************************************
+//*****************************************************************************
+//*****************************************************************************
+/**
+* Service API Core Class Plugin
+*
+* @package		phpOpenPlugins
+* @subpackage	Core
+* @author 		Christian J. Clark
+* @copyright	Copyright (c) Christian J. Clark
+* @license		http://www.gnu.org/licenses/gpl-2.0.txt
+* @link			http://www.emonlade.net/phpopenplugins/
+* @version 		Started: 7/17/2012, Last updated: 8/25/2015
+**/
+//*****************************************************************************
+//*****************************************************************************
+
 abstract class SERVICE_API_CORE
 {
 	//========================================================================
@@ -20,7 +27,6 @@ abstract class SERVICE_API_CORE
 	protected $server_ip;
 	protected $port;
 	protected $params;
-	protected $trans_xml;
     protected $success;
     protected $nodata;
     protected $error;
@@ -67,7 +73,6 @@ abstract class SERVICE_API_CORE
 		if (strtolower($type) == 'all') {
 			$this->trans_name = false;
 			$this->params = array();
-			$this->trans_xml = false;
 		}
 		$this->success = false;
 		$this->nodata = true;
