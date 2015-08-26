@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/24/2015, Last updated: 8/25/2015
+* @version 		Started: 8/24/2015, Last updated: 8/26/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -32,9 +32,26 @@ class POP_mysql extends POP_static_core
 	// -> get_records()
 	// -> count_records()
 	// -> delete_records()
+	// -> delete_record()
 	//=========================================================================
+	//-------------------------------------------------------
 	// * Parameter #1: Table or [Data Source, Table]
+	// * Parameter #2: Fields / Values
+	// * Parameter #3: Optional Arguments
+	//-------------------------------------------------------
 	// 
+	//-------------------------------------------------------
+	// Examples:
+	//-------------------------------------------------------
+	// $args = ['debug' => 1];
+	//
+	// POP_mysql::count_records('jobs', 87, $args);
+	// POP_mysql::count_records('jobs', ['id' => 87], $args);
+	// POP_mysql::count_records('jobs', ['client_id' => ['i', 87]], $args);
+	// POP_mysql::count_records('jobs', ['client_id' => ['i', 87, 86, 88, 89, 85]], $args);
+	//
+	// * Note: get_record(s) and delete_record(s) functions work the same way.
+	//
 	//=========================================================================
 	//=========================================================================
 	//#########################################################################
@@ -48,13 +65,14 @@ class POP_mysql extends POP_static_core
 	//=========================================================================
 	public static function get_record($table, $fields_values, $args=false)
 	{
-		$sql_parts = self::build_sql_parts(func_get_args())
+		$sql_parts = self::build_sql_parts($table, $fields_values, $args);
 		if (!$sql_parts) { return null; }
 		else { extract($sql_parts); }
 		$strsql = "select {$columns} from {$table} where {$where}";
 		if (!empty($group_by)) { $strsql .= ' ' . $group_by; }
 		if (!empty($order_by)) { $strsql .= ' ' . $order_by; }
 		$strsql .= ' limit 1';
+		if (!empty($debug)) { var_dump($strsql, $params); }
 		return qdb_first_row($ds, $strsql, $params);
 	}
 
@@ -65,13 +83,14 @@ class POP_mysql extends POP_static_core
 	//=========================================================================
 	public static function get_records($table, $fields_values, $args=false)
 	{
-		$sql_parts = self::build_sql_parts(func_get_args())
+		$sql_parts = self::build_sql_parts($table, $fields_values, $args);
 		if (!$sql_parts) { return null; }
 		else { extract($sql_parts); }
 		$strsql = "select {$columns} from {$table} where {$where}";
 		if (!empty($group_by)) { $strsql .= ' ' . $group_by; }
 		if (!empty($order_by)) { $strsql .= ' ' . $order_by; }
 		if (!empty($limit)) { $strsql .= ' ' . $limit; }
+		if (!empty($debug)) { var_dump($strsql, $params); }
 		return qdb_exec($ds, $strsql, $params);
 	}
 
@@ -84,13 +103,14 @@ class POP_mysql extends POP_static_core
 	//=========================================================================
 	public static function count_records($table, $fields_values, $args=false)
 	{
-		$sql_parts = self::build_sql_parts(func_get_args())
+		$sql_parts = self::build_sql_parts($table, $fields_values, $args);
 		if (!$sql_parts) { return null; }
 		else { extract($sql_parts); }
 		$strsql = "select count(*) as count from {$table} where {$where}";
 		if (!empty($group_by)) { $strsql .= ' ' . $group_by; }
 		if (!empty($order_by)) { $strsql .= ' ' . $order_by; }
 		if (!empty($limit)) { $strsql .= ' ' . $limit; }
+		if (!empty($debug)) { var_dump($strsql, $params); }
 		return qdb_lookup($ds, $strsql, "count", $params);
 	}
 
@@ -101,11 +121,12 @@ class POP_mysql extends POP_static_core
 	//============================================================================
 	public static function delete_records($table, $fields_values, $args=false)
 	{
-		$sql_parts = self::build_sql_parts(func_get_args())
+		$sql_parts = self::build_sql_parts($table, $fields_values, $args);
 		if (!$sql_parts) { return null; }
 		else { extract($sql_parts); }
 		$strsql = "delete from {$table} where {$where}";
 		if (!empty($limit)) { $strsql .= ' ' . $limit; }
+		if (!empty($debug)) { var_dump($strsql, $params); }
 		return qdb_exec($ds, $strsql, $params);
 	}
 
@@ -155,21 +176,35 @@ class POP_mysql extends POP_static_core
 			}
 			else { $table = $args[0][0]; }
 		}
-		else { $table = $args[0]; }
+		else {
+			$table = $args[0];
+			$ds = '';
+		}
 
 		//------------------------------------------------------------------
 		// Parameter #2: Fields / Values
+		// Build Where / Bind Params
 		//------------------------------------------------------------------
 		if (is_array($args[1])) {
-
+			$where = '';
+			foreach ($args[1] as $field_name => $field_vals) {
+				$separator = ($where) ? ('and') : ('');
+				if (is_array($field_vals)) {
+					$type = $field_vals[0];
+					$vals = $field_vals;
+					unset($vals	[0]);
+				}
+				else {
+					$type = 'i';
+					$vals = $field_vals;
+				}
+				$where .= self::add_sql_param($params, $field_name, $vals, $type, $separator);
+			}
 		}
 		else {
-			
+			$where = ' id = ?';
+			$params = ['i', $args[1]];
 		}
-
-		//------------------------------------------------------------------
-		// Build Where / Params
-		//------------------------------------------------------------------
 
 		//------------------------------------------------------------------
 		// Add Values to Return Values Array
@@ -178,6 +213,7 @@ class POP_mysql extends POP_static_core
 		$ret_vals['table'] = $table;
 		$ret_vals['columns'] = $columns;
 		$ret_vals['params'] = $params;
+		$ret_vals['where'] = $where;
 
 		return $ret_vals;
 	}
@@ -357,17 +393,27 @@ class POP_mysql extends POP_static_core
 		//-----------------------------------------------------------
 		// Checks
 		//-----------------------------------------------------------
-		if (!is_array($params) || (is_array($params) && count($params) == 0)) {
-			$msg = "SQL parameters variable must be a non-empty array.";
+		if (!is_array($params)) {
+			$msg = "SQL bind parameters variable must be an array.";
 			display_error(__FUNCTION__, $msg);
 			return false;
+		}
+		else if (!count($params)) {
+			$params = [''];
 		}
 		if (empty($field) || !is_scalar($field)) {
 			$msg = "SQL field name cannot be empty and must be a scalar value.";
 			display_error(__FUNCTION__, $msg);
 			return false;		
 		}
-	
+
+		//-----------------------------------------------------------
+		// Only one array value?
+		//-----------------------------------------------------------
+		if (is_array($values) && count($values) == 1) {
+			$values = current($values);
+		}
+
 		//-----------------------------------------------------------
 		// Multiple Values
 		//-----------------------------------------------------------
