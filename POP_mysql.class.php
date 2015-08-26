@@ -24,6 +24,21 @@ require_once('POP_static_core.class.php');
 class POP_mysql extends POP_static_core
 {
 
+	//#########################################################################
+	//=========================================================================
+	//=========================================================================
+	// Parameters / Usage for functions:
+	// -> get_record()
+	// -> get_records()
+	// -> count_records()
+	// -> delete_records()
+	//=========================================================================
+	// * Parameter #1: Table or [Data Source, Table]
+	// 
+	//=========================================================================
+	//=========================================================================
+	//#########################################################################
+
 	//=========================================================================
 	//=========================================================================
 	// Get Record Function
@@ -31,16 +46,15 @@ class POP_mysql extends POP_static_core
 	// Previosuly named "get_record_by_id()"
 	//=========================================================================
 	//=========================================================================
-	public static function get_record($table, $value, $field=false, $ds='')
+	public static function get_record($table, $fields_values, $args=false)
 	{
-		$type = 'i';
-		if (!$field) { $field = 'id'; }
-		else if (is_array($field)) {
-			$field = $field[0];
-			if (count($field) > 1) { $type = $field[1]; }
-		}
-		$params = array($type, $value);
-		$strsql = "select * from {$table} where {$field} = ? limit 1";
+		$sql_parts = self::build_sql_parts(func_get_args())
+		if (!$sql_parts) { return null; }
+		else { extract($sql_parts); }
+		$strsql = "select {$columns} from {$table} where {$where}";
+		if (!empty($group_by)) { $strsql .= ' ' . $group_by; }
+		if (!empty($order_by)) { $strsql .= ' ' . $order_by; }
+		$strsql .= ' limit 1';
 		return qdb_first_row($ds, $strsql, $params);
 	}
 
@@ -49,9 +63,16 @@ class POP_mysql extends POP_static_core
 	// Get Records Function
 	//=========================================================================
 	//=========================================================================
-	public static function get_records($table, $value, $field=false, $ds='')
+	public static function get_records($table, $fields_values, $args=false)
 	{
-		
+		$sql_parts = self::build_sql_parts(func_get_args())
+		if (!$sql_parts) { return null; }
+		else { extract($sql_parts); }
+		$strsql = "select {$columns} from {$table} where {$where}";
+		if (!empty($group_by)) { $strsql .= ' ' . $group_by; }
+		if (!empty($order_by)) { $strsql .= ' ' . $order_by; }
+		if (!empty($limit)) { $strsql .= ' ' . $limit; }
+		return qdb_exec($ds, $strsql, $params);
 	}
 
 	//=========================================================================
@@ -61,19 +82,15 @@ class POP_mysql extends POP_static_core
 	// Previosuly named "is_valid_record()"
 	//=========================================================================
 	//=========================================================================
-	public static function count_records($table, $fields, $ds='')
+	public static function count_records($table, $fields_values, $args=false)
 	{
-		if (empty($fields) || !is_array($fields) || empty($table)) {
-			return false;
-		}
-		$params = array('');
-		$strsql = "select count(*) as count from {$table} where";
-		foreach ($fields as $field_name => $field_data) {
-			if ($params[0]) { $strsql .= ' and'; }
-			$strsql .= " {$field_name} = ?";
-			$params[0] .= $field_data[0];
-			$params[] = $field_data[1];
-		}
+		$sql_parts = self::build_sql_parts(func_get_args())
+		if (!$sql_parts) { return null; }
+		else { extract($sql_parts); }
+		$strsql = "select count(*) as count from {$table} where {$where}";
+		if (!empty($group_by)) { $strsql .= ' ' . $group_by; }
+		if (!empty($order_by)) { $strsql .= ' ' . $order_by; }
+		if (!empty($limit)) { $strsql .= ' ' . $limit; }
 		return qdb_lookup($ds, $strsql, "count", $params);
 	}
 
@@ -82,13 +99,87 @@ class POP_mysql extends POP_static_core
 	// Delete Records Function
 	//============================================================================
 	//============================================================================
-	public static function delete_records($table, $field, $value, $value_type='i', $ds='')
+	public static function delete_records($table, $fields_values, $args=false)
 	{
-		if (empty($field) || (string)$value === '') { return false; }
-		$params = array($value_type, $value);
-		$strsql = "delete from {$table} where {$field} = ?";
-	
+		$sql_parts = self::build_sql_parts(func_get_args())
+		if (!$sql_parts) { return null; }
+		else { extract($sql_parts); }
+		$strsql = "delete from {$table} where {$where}";
+		if (!empty($limit)) { $strsql .= ' ' . $limit; }
 		return qdb_exec($ds, $strsql, $params);
+	}
+
+	//============================================================================
+	//============================================================================
+	// Delete Record Function
+	//============================================================================
+	//============================================================================
+	public static function delete_record($table, $fields_values, $args=false)
+	{
+		if (!is_array($args)) { $args = []; }
+		$args['limit'] = 1;
+		return self::delete_records($table, $fields_values, $args);
+	}
+
+	//============================================================================
+	//============================================================================
+	// Build Where Clause Function
+	//============================================================================
+	//============================================================================
+	public static function build_sql_parts()
+	{
+		//------------------------------------------------------------------
+		// Validation / Defaults / Setup
+		//------------------------------------------------------------------
+		$args = func_get_args();
+		if (!$args[0] || !$args[1]) { return false; }
+		$ret_vals = [];
+		$columns = '*';
+		$params = [];
+
+		//------------------------------------------------------------------
+		// Parameter #3: Passed in arguments.
+		// Use as the base for return values.
+		//------------------------------------------------------------------
+		if (!empty($args[2]) && is_array($args[2])) {
+			$ret_vals = $args[2];
+		}
+
+		//------------------------------------------------------------------
+		// Parameter #1: Table or [Data Source, Table]
+		//------------------------------------------------------------------
+		if (is_array($args[0])) {
+			if (count($args[0]) > 1) {
+				$ds = $args[0][0];
+				$table = $args[0][1];
+			}
+			else { $table = $args[0][0]; }
+		}
+		else { $table = $args[0]; }
+
+		//------------------------------------------------------------------
+		// Parameter #2: Fields / Values
+		//------------------------------------------------------------------
+		if (is_array($args[1])) {
+
+		}
+		else {
+			
+		}
+
+		//------------------------------------------------------------------
+		// Build Where / Params
+		//------------------------------------------------------------------
+
+		//------------------------------------------------------------------
+		// Add Values to Return Values Array
+		//------------------------------------------------------------------
+		$ret_vals['ds'] = $ds;
+		$ret_vals['table'] = $table;
+		$ret_vals['columns'] = $columns;
+		$ret_vals['params'] = $params;
+
+		return $ret_vals;
 	}
 
 	//============================================================================

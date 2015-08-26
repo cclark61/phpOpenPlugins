@@ -21,6 +21,7 @@ application cache separation.
 
 - Added label(), badge(), and alert() functions the bootstrap plugins.
 - Added the css_icon() function to the POP_format_content plugin.
+- Lots of clean-up / restructuring.
 
 -------------------------------------------------------------------------------------
 * v0.5.6
