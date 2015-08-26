@@ -192,7 +192,7 @@ class POP_mysql extends POP_static_core
 				if (is_array($field_vals)) {
 					$type = $field_vals[0];
 					$vals = $field_vals;
-					unset($vals	[0]);
+					unset($vals[0]);
 				}
 				else {
 					$type = 'i';

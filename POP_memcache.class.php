@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/25/2015, Last updated: 8/25/2015
+* @version 		Started: 8/25/2015, Last updated: 8/26/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -40,9 +40,20 @@ class POP_memcache extends POP_static_core
 	*/
 	//=============================================================================
 	//=============================================================================
+	// Example Usage:
+	//=============================================================================
+	//	$result = POP_memcache::get_data_with_caching(
+	//		$memcache, 
+	//		MC_KEY_STUB, 
+	//		'POP_mysql::get_records', 
+	//		['jobs', ['client_id' => ['i', 87]], $args], 
+	//		60
+	//	);
+	//=============================================================================
+	//=============================================================================
 	public static function get_data_with_caching($m, $stub, $fn, $args, $ttl, $use_cache=true)
 	{
-		settype('int', $ttl);
+		settype($ttl, 'int');
 
 		//-----------------------------------------------------------
 		// Did we get a valid MemCached object?
@@ -80,8 +91,12 @@ class POP_memcache extends POP_static_core
 		// Results Not Found / Don't Use MemCache
 		//-----------------------------------------------------
 		if (empty($results)) {
-
-			$results = (!empty($obj)) ? ($obj->{$fn}($args)) : ({$fn}($args));
+			if (!empty($obj) && is_object($obj)) {
+				$results = call_user_func_array(array($obj, $fn), $args);
+			}
+			else {
+				$results = call_user_func_array($fn, $args);
+			}
 
 			//-----------------------------------------------------
 			// Cache the Results in MemCache
@@ -124,10 +139,8 @@ class POP_memcache extends POP_static_core
 		else {
 			$cache_key .= ":{$args}";
 		}
-	
-		$cache_key = md5($cache_key);
-	
-		return $cache_key;
+
+		return md5($cache_key);
 	}
 
 
