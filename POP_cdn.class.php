@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/25/2015, Last updated: 8/25/2015
+* @version 		Started: 8/25/2015, Last updated: 8/27/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -28,9 +28,13 @@ class POP_cdn
 	// Output Content Type Header
 	//*****************************************************************************
 	//*****************************************************************************
-	public static function output_content_type($ext)
+	public static function output_content_type($file)
 	{
-		if (empty($ext) { return false; }
+		$path_parts = pathinfo($file);
+		if (empty($path_parts['extension'])) {
+			return false;
+		}
+		$ext = $path_parts['extension'];
 
 		switch ($ext) {
 
@@ -64,7 +68,7 @@ class POP_cdn
 			case 'svg':
 			case 'svgz':
 				header("Content-type: image/svg+xml");
-				if ($extension == 'svgz') {
+				if ($ext == 'svgz') {
 					header("Content-Encoding: gzip");	
 				}
 				break;
