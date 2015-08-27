@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/25/2015, Last updated: 8/26/2015
+* @version 		Started: 8/25/2015, Last updated: 8/27/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -52,7 +52,7 @@ class POP_dio
 	// Save DIO Record Function
 	//=============================================================================
 	//=============================================================================
-	public static function save_dio_rec($plugin, $obj_name, $data, $pkey=false, $args=false)
+	public static function save_rec($plugin, $obj_name, $data, $pkey=false, $args=false)
 	{
 		//------------------------------------------------------
 		// Transaction Type
