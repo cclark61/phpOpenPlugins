@@ -5,8 +5,9 @@ phpOpenPlugins Change Log
 -------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------
-* v0.5.7
+* v0.6.0
 -------------------------------------------------------------------------------------
+- THERE ARE A LOT OF CHANGES IN THIS RELEASE! PLEASE TEST THOROUGHLY BEFORE PRODUCTION USE!
 - Updated make_cache_key() function in POP_format_content plugin to allow for session app codes and keys for 
 application cache separation.
 - Removed the "POP_database" plugin.

@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/25/2015, Last updated: 8/26/2015
+* @version 		Started: 8/25/2015, Last updated: 8/31/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -124,7 +124,7 @@ class POP_memcache extends POP_static_core
 	public static function make_cache_key($stub, $args)
 	{
 		if (empty($stub) || empty($args)) { return false; }
-		$cache_key = $stub;
+		$cache_key = (defined('MC_KEY_STUB')) ? (MC_KEY_STUB . ':' $stub) : ($stub);
 
 		if (is_array($args)) {
 			foreach ($args as $arg) {
