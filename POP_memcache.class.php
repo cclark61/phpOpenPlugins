@@ -124,7 +124,7 @@ class POP_memcache extends POP_static_core
 	public static function make_cache_key($stub, $args)
 	{
 		if (empty($stub) || empty($args)) { return false; }
-		$cache_key = (defined('MC_KEY_STUB')) ? (MC_KEY_STUB . ':' $stub) : ($stub);
+		$cache_key = (defined('MC_KEY_STUB')) ? (MC_KEY_STUB . ':' . $stub) : ($stub);
 
 		if (is_array($args)) {
 			foreach ($args as $arg) {
