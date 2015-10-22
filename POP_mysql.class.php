@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/24/2015, Last updated: 10/13/2015
+* @version 		Started: 8/24/2015, Last updated: 10/22/2015
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -412,7 +412,7 @@ class POP_mysql extends POP_static_core
 		//-----------------------------------------------------------
 		if (is_array($values) && count($values) == 1) {
 			$values = current($values);
-			if ($values == '') {
+			if ((string)$values == '') {
 				return false;
 			}
 		}
@@ -425,7 +425,7 @@ class POP_mysql extends POP_static_core
 			$phrase .= ($in) ? ('IN (') : ('NOT IN (');
 			$count = 0;
 			foreach ($values as $el) {
-				if ($el == '') { continue; }
+				if ((string)$el == '') { continue; }
 				$phrase .= ($count > 0) ? (', ?') : ('?');
 				$params[0] .= $type;
 				$params[] = $el;
