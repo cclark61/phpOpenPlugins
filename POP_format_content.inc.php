@@ -174,7 +174,7 @@ function load_file_content($dir, $file)
 //=============================================================================
 function html_sanitize($s)
 {
-	$s = preg_replace('/[^\xA|\xC|(\x20-\x7F)]*/','', (string)$s);
+	$s = preg_replace('/[\x00-\x1F\x7F]/', '', (string)$s);
 	return htmlspecialchars(strip_tags($s));
 }
 
@@ -185,7 +185,7 @@ function html_sanitize($s)
 //=============================================================================
 function html_escape($s)
 {
-	$s = preg_replace('/[^\xA|\xC|(\x20-\x7F)]*/','', (string)$s);
+	$s = preg_replace('/[^\xA|\xC|(\x20-\x7F)]*/', '', (string)$s);
 	return htmlspecialchars($s);
 }
 
