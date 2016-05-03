@@ -8,7 +8,8 @@ phpOpenPlugins Change Log
 * v0.6.1
 -------------------------------------------------------------------------------------
 - Updates for Composer Autoloading
-- Addition of Universal Path Notation (UPN) Plugin
+- Added Universal Path Notation (UPN) plugin. POP_upn.class.php
+- Fixed issue in the gen_format_date() function in POP_format_content plugin.
 
 -------------------------------------------------------------------------------------
 * v0.6.0

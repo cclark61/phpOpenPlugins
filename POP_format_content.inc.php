@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 8/25/2015
+* @version 		Started: 7/17/2012, Last updated: 5/3/2016
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -75,7 +75,7 @@ function set_category(&$cat, $new_cat)
 function gen_format_date($stamp, $def_ret_val=false, $format="n/j/Y")
 {
 	$unix_stamp = strtotime($stamp);
-	if ($unix_stamp > 0) { return date($format, $unix_stamp); }
+	if ($unix_stamp !== false) { return date($format, $unix_stamp); }
 	else { return $def_ret_val; }
 }
 
