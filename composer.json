@@ -1,8 +1,24 @@
 {
     "name": "cclark61/phpOpenPlugins",
     "version": "0.6.0.1",
+    "require": {},
+	"require-dev": {},
+	"repositories": [],
     "dist": {
         "url": "https://github.com/cclark61/phpOpenPlugins/archive/master.zip",
         "type": "zip"
-    }
+    },
+    "autoload": {
+		"psr-4": {
+			"POP\\": ""
+		}
+	},
+	"scripts-dev": {
+		"post-install-cmd": [
+			"vendor/bin/security-checker security:check"
+		],
+		"post-update-cmd": [
+			"vendor/bin/security-checker security:check"
+		]
+	}
 }
