@@ -32,21 +32,37 @@ function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_f
 {
 	$ret_code = 0;
 	$out_format = strtolower($out_format);
+
+	//================================================================
+	// Valid File
+	//================================================================
 	if (file_exists($curr_file) && !is_dir($curr_file)) {
 		$img_info = getimagesize($curr_file);
+
+		//============================================================
+		// Invalid Image
+		//============================================================
 		if (!$img_info) {
-			// Invalid Image
 			$ret_code = 2;
 		}
+		//============================================================
+		// Valid Image
+		//============================================================
 		else {
+			//--------------------------------------------------------
 			// Image Type
-			$img_type = $img_info["mime"];
+			//--------------------------------------------------------
+			$img_type = strtolower($img_info["mime"]);
 			
+			//--------------------------------------------------------
 			// Current Dimensions
+			//--------------------------------------------------------
 			$curr_width = $img_info[0];
 			$curr_height = $img_info[1];
 			
+			//--------------------------------------------------------
 			// New Dimensions
+			//--------------------------------------------------------
 			$width_perc = $max_width / $curr_width;
 			$height_perc = $max_height / $curr_height;
 
@@ -64,7 +80,9 @@ function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_f
 					$new_height = $max_height;
 				}
 
+				//----------------------------------------------------
 				// Load
+				//----------------------------------------------------
 				$thumb = imagecreatetruecolor($new_width, $new_height);
 				$save = true;
 				switch ($img_type) {
@@ -81,19 +99,28 @@ function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_f
 						break;
 
 					default:
+						//--------------------------------------------
 						// Invalid Image Type
+						//--------------------------------------------
 						$ret_code = 3;
 						$save = false;
 						break;
 				}
 
+				//----------------------------------------------------
 				// Resize and Save
+				//----------------------------------------------------
 				if ($save) {
 					if (is_dir(dirname($save_file)) && is_writeable(dirname($save_file))) {
+
+						//--------------------------------------------
 						// Resize
+						//--------------------------------------------
 						$resize_status = imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $curr_width, $curr_height);
 
+						//--------------------------------------------
 						// Save
+						//--------------------------------------------
 						if ($resize_status) {
 							$save_status = false;
 							switch ($out_format) {
@@ -113,14 +140,18 @@ function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_f
 						}
 						else { $ret_code = 5; }
 					}
+					//----------------------------------------------------
+					// Invalid save path
+					//----------------------------------------------------
 					else {
-						// Invalid save path
 						$ret_code = 4;
 					}
 				}
 			}
 			else {
+				//----------------------------------------------------
 				// No need to resize, just move
+				//----------------------------------------------------
 				if (is_dir(dirname($save_file)) && is_writeable(dirname($save_file))) {
 					move_uploaded_file($curr_file, $save_file);
 				}
@@ -128,6 +159,9 @@ function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_f
 			}
 		}
 	}
+	//================================================================
+	// Valid File
+	//================================================================
 	else {
 		$ret_code = 1;
 	}
