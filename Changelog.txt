@@ -9,6 +9,7 @@ phpOpenPlugins Change Log
 -------------------------------------------------------------------------------------
 - Fixed issue in the gen_format_date() function in POP_format_content plugin.
 - Fixed issue in the img_resize_save() function.
+- Fixed issue in the POP_cdn::output_content_type() method.
 
 -------------------------------------------------------------------------------------
 * v0.6.1

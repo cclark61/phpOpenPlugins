@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 8/25/2015, Last updated: 8/27/2015
+* @version 		Started: 8/25/2015, Last updated: 6/7/2016
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -34,7 +34,7 @@ class POP_cdn
 		if (empty($path_parts['extension'])) {
 			return false;
 		}
-		$ext = $path_parts['extension'];
+		$ext = strtolower($path_parts['extension']);
 
 		switch ($ext) {
 
