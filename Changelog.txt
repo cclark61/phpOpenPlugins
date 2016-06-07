@@ -5,11 +5,16 @@ phpOpenPlugins Change Log
 -------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------
+* v0.6.2
+-------------------------------------------------------------------------------------
+- Fixed issue in the gen_format_date() function in POP_format_content plugin.
+- Fixed issue in the img_resize_save() function.
+
+-------------------------------------------------------------------------------------
 * v0.6.1
 -------------------------------------------------------------------------------------
 - Updates for Composer Autoloading
 - Added Universal Path Notation (UPN) plugin. POP_upn.class.php
-- Fixed issue in the gen_format_date() function in POP_format_content plugin.
 
 -------------------------------------------------------------------------------------
 * v0.6.0

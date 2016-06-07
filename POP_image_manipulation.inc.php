@@ -10,7 +10,7 @@
 * @copyright	Copyright (c) Christian J. Clark
 * @license		http://www.gnu.org/licenses/gpl-2.0.txt
 * @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 7/17/2012, Last updated: 7/17/2012
+* @version 		Started: 7/17/2012, Last updated: 6/7/2016
 **/
 //*****************************************************************************
 //*****************************************************************************
@@ -31,6 +31,7 @@
 function img_resize_save($curr_file, $save_file, $max_width, $max_height, $out_format="jpg")
 {
 	$ret_code = 0;
+	$out_format = strtolower($out_format);
 	if (file_exists($curr_file) && !is_dir($curr_file)) {
 		$img_info = getimagesize($curr_file);
 		if (!$img_info) {
