@@ -74,6 +74,7 @@ function set_category(&$cat, $new_cat)
 //=============================================================================
 function gen_format_date($stamp, $def_ret_val=false, $format="n/j/Y")
 {
+	if ($stamp == '0000-00-00') { return $def_ret_val; }
 	$unix_stamp = strtotime($stamp);
 	if ($unix_stamp !== false) { return date($format, $unix_stamp); }
 	else { return $def_ret_val; }
