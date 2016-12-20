@@ -71,7 +71,8 @@ class dao_lwcms_blog
 				'entry_keywords', 
 				'version_dev',
 				'version_test', 
-				'version_live'
+				'version_live',
+				'metadata'
 			);
 
 		}
